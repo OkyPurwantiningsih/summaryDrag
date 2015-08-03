@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>Hammer and Planks Gameplay Summary</title>
+	
+			<!--Style CSS -->
+		<link rel="stylesheet" type="text/css" href="css/d3.slider.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/style.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/onoffswitch.css"></link>
+		<style>
+
+			body {
+			  font-family: Verdana,Arial,sans-serif;
+			  background-color: grey;
+			}
+
+			p {
+			  font-size: 1.0em;
+			  margin: 10px 0 5px 0;
+			}
+
+			.wrapperLeft {
+			  width: 300px;
+			  margin-left: 20px;
+			  margin-right: 30px;
+			  margin-bottom: 50px;
+			  margin-top: 10px;
+			  float: left;
+			}
+			
+			.wrapperRight {
+			  width: 300px;
+			  margin-left: 360px;
+			  margin-right: 0;
+			  margin-bottom: 50px;
+			  margin-top: 10px;
+			  display: table;
+			}
+
+			.wrapper > div {
+			  margin: 5px 0;
+			}
+			
+			div.float {
+				width:150px;
+			  float: left;
+			}
+			  
+			div.float p {
+			   text-align: center;
+			}
+			.buttons {
+				position:relative; 
+				top:0; 
+				right:0;
+			}
+
+
+
+		  </style>
+	
+	<!-- D3 Library -->
+	<script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+	<script type="text/javascript" src="js/d3.min.js"></script>
+	<script type="text/javascript" src="js/d3.svg.multibrush.js"></script>
+	<script type="text/javascript" src="js/d3.slider.js"></script>
+	<script type="text/javascript" src="js/summary.js"></script>
+	<script type="text/javascript" src="js/summaryNoOfEvent.js"></script>
+	<script type="text/javascript" src="js/suggestSummary.js"></script>
+	
+
+  </head>
+  <body>
+		
+		<div style="width: 100%; overflow: hidden;">
+			<div class="wrapperLeft">
+				<div id="sliderByArea"></div>
+				
+			</div>
+			<div class="wrapperRight">
+				<div class="float">
+					<div class="Switch Round Off">
+						<div class="Toggle"></div>
+					</div>
+					<p id="areaText"  style="display: table-cell;">&nbsp;</p>
+					
+				</div>
+				<button type="button" class="buttons">Suggest!</button>
+			</div>
+			
+		</div>
+
+		<!--<div style="width: 100%; overflow: hidden;">
+			<div class="wrapperLeft">
+				<p>X Area Slider</p><p id="areaText">&nbsp;</p>
+				<div id="sliderByArea"></div>
+			</div>
+			<div class="wrapperRight">
+				<p>No of Events Slider</p><p id="eventText">&nbsp;</p>
+				<div id="sliderByNoOfEvent"></div>
+			</div>
+		</div>-->
+		<div id="chartContainer"></div>
+			<div style="width: 800px; display: table;">
+			<div id="trWrapper" style="display: table-row">
+		
+			</div>
+		</div>
+  </body>
+</html>
