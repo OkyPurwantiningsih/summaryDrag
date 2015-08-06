@@ -13,6 +13,7 @@ button {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
+  cursor:col-resize;
 }
 
 .trDiv {
@@ -37,5 +38,11 @@ button {
 
 .axis text {
   text-shadow: 0 1px 0 #fff;
+  cursor: move;
+}
+
+.triangle {
+  fill: steelblue;
+  stroke: #000;
   cursor: move;
 }

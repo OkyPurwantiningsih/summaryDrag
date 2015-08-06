@@ -4,9 +4,9 @@ var trColor = ["rgb(251,128,144)", "rgb(255,255,179)", "rgb(141,211,199)", "rgb(
 	eventType = ["Negative","Neutral","Positive"];
 var offsetType = "silhouette",//"wiggle",
     interpolationType = "cardinal";
-var containerWidth=1500,
-	containerHeight=600,
-	margin = {top: 30, right: 30, bottom: 20, left: 90},
+var containerWidth=1200,
+	containerHeight=450,
+	margin = {top: 30, right: 30, bottom: 70, left: 90},
 	width = containerWidth - margin.left - margin.right,
 	height = containerHeight - margin.top - margin.bottom;
 var width, height, x, y, yValues, minX, maxX, xAxis, yAxis, yValues, trminX, trmaxX, tr_x, tr_y;
@@ -14,8 +14,8 @@ var minXValue, maxXValue, xRange, sectionLineX=[], sectionLineList=[];
 var g, svg, listOfSession;
 var drag, dragging={}, newData=[], move=[], 	
 	crossedLeftLine = [], crossedRightLine = [], upperBound, lowerBound, chartToUpdate = [];
-//var sessions = "1,2,3,4,5,6,7,8,9,10,11,12,13,14";
-var sessions = "1,2,3,4,5,6,7";
+var sessions = "1,2,3,4,5,6,7,8,9,10,11,12,13,14";
+//var sessions = "1,2,3,4,5,6,7";
 var sessionArr = sessions.split(",");
 var dataFiltered = [];
 
@@ -39,17 +39,18 @@ $(document).ready(function (){
 		}
 		
 	});
-		
+	
 	load();
 	$('button').click(function() {
 		d3.select("#chartContainer").select("svg").remove();
 		suggestSummary();
 	});
+	
 })
 
 function load(){
 	
-	d3.json("data/summaryAllSessionCedric.json", function(error, dataAll) {
+	d3.json("data/test2.json", function(error, dataAll) {
 		if(error){
 			console.log(error);
 			alert("Data can't be loaded");
@@ -69,7 +70,7 @@ function load(){
 			// Draw Slider
 			d3.select('#sliderByArea')
 			  .call(d3.slider()
-						.axis(d3.svg.axis().ticks(6))
+						.axis(d3.svg.axis())
 						.min(0)
 						.max(30)
 						.on("slide", function(evt, value) {
@@ -198,6 +199,12 @@ function drawGraph(){
 		  .attr("y", -9)
 		  .text(function(d) {return d.text;});
 	
+	// Add triangle symbol	
+	g.append("path")
+		.attr("class", "triangle")
+        .attr("d", d3.svg.symbol().type("triangle-up").size(100))
+        .attr("transform", function(d) { return "translate(" + 0 + "," + (height+30) + ")"; });
+	
 	
 }
 
@@ -206,6 +213,17 @@ function drawAxis(){
 	svg.append("g")
 	.attr("class", "x axis")
 	.attr("transform", "translate(0," + height + ")")
+	.call(xAxis);
+	
+	// draw line for slider
+	svg.append("g")
+	.attr("class", "x axis")
+	.attr("transform", "translate(0," + (height+30) + ")")
+	.call(xAxis);
+	
+	// draw top x axis
+	svg.append("g")
+	.attr("class", "x axis")
 	.call(xAxis);
 	
 	// draw y axis
@@ -271,6 +289,8 @@ function defineDragFunction(){
 
 				newd = {x:d.x, text:d.text, linePos:crossedLeft};
 				updatedSectionLine.push(newd);
+				
+				
 				// update section class
 				d3.selectAll(".section"+d.linePos)
 					.attr("class", "section"+crossedLeft);
@@ -280,6 +300,10 @@ function defineDragFunction(){
 				else
 					crossedRight = d.linePos;
 				
+				console.log(x(sectionLineList[crossedRight+1].x)-x(newd.x));
+				console.log(sectionSize);
+				console.log(move);
+				console.log(window['newStackData'+2]);
 				j=1;
 				for(var i=crossedRight+1; i<sectionLineList.length; i++){
 					// update section class
@@ -506,7 +530,7 @@ function initYAxis(){
 							
 						return 0;
 					});
-					
+			
 	tr_y = d3.scale.linear().range([height, 0]);
 	tr_y.domain([d3.max(yValues), 1]);
 	
@@ -526,7 +550,8 @@ function initYAxis(){
 	axis = d3.svg.axis()
 				.scale(sectionLine)
 				.tickFormat("")
-				.orient("left");
+				.orient("left")
+				.ticks(0);
 }
 
 function initXAxis(){
@@ -536,7 +561,7 @@ function initXAxis(){
 	minX = d3.min(data, function(d) {return parseFloat(d.x);}),
 	maxX = d3.max(data, function(d) {return parseFloat(d.x);}),
 	x.domain([minX, maxX]);
-	
+
 	// Set scale to get x value from dragging position
 	x2 = d3.scale.linear().range([minX,maxX]).domain([0,width]);
 	
@@ -549,7 +574,7 @@ function initXAxis(){
 
 	tr_x = d3.scale.linear()
 				.range([0, sectionSize])
-				.domain([trminX-1, trmaxX+1]);
+				.domain([0, trmaxX]);
 	
 	xAxis = d3.svg.axis()
 				.scale(x)
